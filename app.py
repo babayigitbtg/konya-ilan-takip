@@ -129,19 +129,34 @@ for ilan in iflaslar:
 
         try:
 
-    detay = get_iflas_detay(uid)
+            detay = get_iflas_detay(uid)
 
-    html = detay.get("content", "")
+            html = detay.get("content", "")
 
-    temiz = BeautifulSoup(
-        html,
-        "html.parser"
-    ).get_text(" ", strip=True)
+            temiz = BeautifulSoup(
+                html,
+                "html.parser"
+            ).get_text(" ", strip=True)
 
-    ozet = temiz[:1200]
+            ozet = temiz[:1200]
 
-    if len(temiz) > 1200:
-        ozet += "..."
+            if len(temiz) > 1200:
+                ozet += "..."
+
+        except Exception as e:
+
+            print("Detay okunamadi:", e)
+
+            ozet = "Özet alınamadı."
+
+        telegram(
+            f"⚖️ Yeni İflas Hukuku İlanı\n\n"
+            f"📌 {ilan['title']}\n\n"
+            f"🏛 {ilan['advertiserName']}\n\n"
+            f"📝 Özet:\n{ozet}\n\n"
+            f"📄 İlan No:\n{ilan['adNo']}\n\n"
+            f"🔗 {link}"
+        )
 
 except Exception as e:
 
