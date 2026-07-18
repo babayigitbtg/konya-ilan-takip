@@ -40,28 +40,25 @@ def save_seen(data):
         json.dump(data, f, ensure_ascii=False, indent=2)
 
 
-def get_iflas():
+def get_iflas_detay(ad_id):
 
-    url = "https://www.ilan.gov.tr/api/api/services/app/Ad/AdsByFilter"
+    url = (
+        "https://www.ilan.gov.tr/api/api/services/app/"
+        f"AdDetail/GetAdDetail?id={ad_id}"
+    )
 
-    payload = {
-        "keys": {
-            "aci": [62],
-            "txv": [12]
-        },
-        "skipCount": 0,
-        "maxResultCount": 20
-    }
-
-    r = requests.post(
+    r = requests.get(
         url,
-        json=payload,
-        headers={"User-Agent": "Mozilla/5.0"},
+        headers={
+            "User-Agent": "Mozilla/5.0",
+            "X-Requested-With": "XMLHttpRequest",
+            "X-Request-Origin": "IGT-UI"
+        },
         verify=False,
         timeout=60
     )
 
-    return r.json()["result"]["ads"]
+    return r.json()["result"]
 
 
 def get_iflas_detay(ad_id):
