@@ -9,7 +9,8 @@ BASE_URL = "https://www.ilan.gov.tr"
 
 
 def telegram(msg):
-    requests.get(
+
+    r = requests.get(
         f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage",
         params={
             "chat_id": CHAT_ID,
@@ -17,6 +18,9 @@ def telegram(msg):
         },
         timeout=30
     )
+
+    print("Telegram status:", r.status_code)
+    print("Telegram cevap:", r.text)
 
 
 def load_seen():
@@ -146,5 +150,7 @@ for ilan in personeller:
 seen["personel"] = [x["id"] for x in personeller]
 
 save_seen(seen)
+
+telegram("TEST MESAJI")
 
 print("Tamamlandi")
