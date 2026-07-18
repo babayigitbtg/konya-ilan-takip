@@ -1,6 +1,7 @@
 import os
 import json
 import requests
+from bs4 import BeautifulSoup
 
 BOT_TOKEN = os.environ["BOT_TOKEN"]
 CHAT_ID = os.environ["CHAT_ID"]
@@ -40,6 +41,7 @@ def save_seen(data):
 
 
 def get_iflas():
+
     url = "https://www.ilan.gov.tr/api/api/services/app/Ad/AdsByFilter"
 
     payload = {
@@ -62,7 +64,27 @@ def get_iflas():
     return r.json()["result"]["ads"]
 
 
+def get_iflas_detay(ad_id):
+
+    url = "https://www.ilan.gov.tr/api/api/services/app/Ad/GetAdById"
+
+    r = requests.post(
+        url,
+        json={
+            "id": str(ad_id)
+        },
+        headers={
+            "User-Agent": "Mozilla/5.0"
+        },
+        verify=False,
+        timeout=60
+    )
+
+    return r.json()["result"]
+
+
 def get_personel():
+
     url = "https://www.ilan.gov.tr/api/api/services/app/Ad/AdsByFilter"
 
     payload = {
@@ -108,12 +130,32 @@ for ilan in iflaslar:
 
         link = BASE_URL + ilan["urlStr"]
 
+        try:
+
+            detay = get_iflas_detay(uid)
+
+            html = detay.get("content", "")
+
+            temiz = BeautifulSoup(
+                html,
+                "html.parser"
+            ).get_text(" ", strip=True)
+
+            ozet = temiz[:700]
+
+        except Exception as e:
+
+            print("Detay okunamadi:", e)
+
+            ozet = "Özet alınamadı."
+
         telegram(
             f"⚖️ Yeni İflas Hukuku İlanı\n\n"
-            f"{ilan['title']}\n\n"
-            f"Mahkeme:\n{ilan['advertiserName']}\n\n"
-            f"İlan No:\n{ilan['adNo']}\n\n"
-            f"{link}"
+            f"📌 {ilan['title']}\n\n"
+            f"🏛 {ilan['advertiserName']}\n\n"
+            f"📝 Özet:\n{ozet}\n\n"
+            f"📄 İlan No:\n{ilan['adNo']}\n\n"
+            f"🔗 {link}"
         )
 
 seen["iflas"] = [x["id"] for x in iflaslar]
@@ -150,6 +192,5 @@ for ilan in personeller:
 seen["personel"] = [x["id"] for x in personeller]
 
 save_seen(seen)
-
 
 print("Tamamlandi")
