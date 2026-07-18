@@ -138,7 +138,10 @@ for ilan in iflaslar:
                 "html.parser"
             ).get_text(" ", strip=True)
 
-            ozet = temiz[:700]
+            ozet = temiz[:1200]
+
+    if len(ozet) > 1200:
+    ozet += "..."
 
         except Exception as e:
 
