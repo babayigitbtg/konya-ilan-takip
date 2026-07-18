@@ -83,14 +83,24 @@ def get_personel():
 
 seen = load_seen()
 
+# =========================
+# İFLAS HUKUKU
+# =========================
+
 iflaslar = get_iflas()
-old_iflas = set(seen["iflas"])
+
+old_iflas = set(seen.get("iflas", []))
+
+print("Iflas ilan sayisi:", len(iflaslar))
+print("Seen iflas:", len(old_iflas))
 
 for ilan in iflaslar:
 
     uid = ilan["id"]
 
     if uid not in old_iflas:
+
+        print("Yeni iflas ilani:", ilan["title"])
 
         link = BASE_URL + ilan["urlStr"]
 
@@ -104,14 +114,24 @@ for ilan in iflaslar:
 
 seen["iflas"] = [x["id"] for x in iflaslar]
 
+# =========================
+# PERSONEL ALIMI
+# =========================
+
 personeller = get_personel()
-old_personel = set(seen["personel"])
+
+old_personel = set(seen.get("personel", []))
+
+print("Personel ilan sayisi:", len(personeller))
+print("Seen personel:", len(old_personel))
 
 for ilan in personeller:
 
     uid = ilan["id"]
 
     if uid not in old_personel:
+
+        print("Yeni personel ilani:", ilan["title"])
 
         link = BASE_URL + ilan["urlStr"]
 
