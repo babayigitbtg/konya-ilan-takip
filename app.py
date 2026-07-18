@@ -34,7 +34,6 @@ json.dump(data, f, ensure_ascii=False, indent=2)
 def get_iflas():
 url = "https://www.ilan.gov.tr/api/api/services/app/Ad/AdsByFilter"
 
-```
 payload = {
     "keys": {
         "aci": [62],
@@ -53,12 +52,10 @@ r = requests.post(
 )
 
 return r.json()["result"]["ads"]
-```
 
 def get_personel():
 url = "https://www.ilan.gov.tr/api/api/services/app/Ad/AdsByFilter"
 
-```
 payload = {
     "keys": {
         "aci": [62],
@@ -77,11 +74,10 @@ r = requests.post(
 )
 
 return r.json()["result"]["ads"]
-```
 
 seen = load_seen()
 
-# İFLAS
+İFLAS
 
 iflaslar = get_iflas()
 
@@ -89,7 +85,6 @@ old_iflas = set(seen["iflas"])
 
 for ilan in iflaslar:
 
-```
 uid = ilan["id"]
 
 if uid not in old_iflas:
@@ -103,11 +98,10 @@ if uid not in old_iflas:
         f"İlan No:\n{ilan['adNo']}\n\n"
         f"{link}"
     )
-```
 
 seen["iflas"] = [x["id"] for x in iflaslar]
 
-# PERSONEL
+PERSONEL
 
 personeller = get_personel()
 
@@ -115,7 +109,6 @@ old_personel = set(seen["personel"])
 
 for ilan in personeller:
 
-```
 uid = ilan["id"]
 
 if uid not in old_personel:
@@ -129,7 +122,6 @@ if uid not in old_personel:
         f"İlan No:\n{ilan['adNo']}\n\n"
         f"{link}"
     )
-```
 
 seen["personel"] = [x["id"] for x in personeller]
 
