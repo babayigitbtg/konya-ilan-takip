@@ -151,6 +151,5 @@ seen["personel"] = [x["id"] for x in personeller]
 
 save_seen(seen)
 
-telegram("TEST MESAJI")
 
 print("Tamamlandi")
