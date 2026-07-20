@@ -113,7 +113,7 @@ def get_personel():
     payload = {
         "keys": {
             "aci": [62],
-            "txv": [3]
+            "txv": [8]
         },
         "skipCount": 0,
         "maxResultCount": 20
