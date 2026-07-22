@@ -198,35 +198,35 @@ for ilan in iflaslar:
 
         link = BASE_URL + ilan["urlStr"]
 
-try:
+        try:
 
-    detay = get_iflas_detay(uid)
+            detay = get_iflas_detay(uid)
 
-    html = detay.get(
-        "content",
-        ""
-    )
+            html = detay.get(
+                "content",
+                ""
+            )
 
-    temiz = BeautifulSoup(
-        html,
-        "html.parser"
-    ).get_text(
-        " ",
-        strip=True
-    )
+            temiz = BeautifulSoup(
+                html,
+                "html.parser"
+            ).get_text(
+                " ",
+                strip=True
+            )
 
-    ozet = yapay_zeka_ozetle(
-        temiz[:15000]
-    )
+            ozet = yapay_zeka_ozetle(
+                temiz[:15000]
+            )
 
-except Exception as e:
+        except Exception as e:
 
-    print(
-        "Detay okunamadi:",
-        e
-    )
+            print(
+                "Detay okunamadi:",
+                e
+            )
 
-    ozet = "Özet alınamadı."
+            ozet = "Özet alınamadı."
 
         telegram(
             f"⚖️ Yeni İflas Hukuku İlanı\n\n"
