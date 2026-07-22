@@ -130,8 +130,8 @@ def yapay_zeka_ozetle(metin):
     try:
 
         cevap = gemini.models.generate_content(
-        model="gemini-3.5-flash",
-        contents=f"""
+            model="gemini-3.5-flash",
+            contents=f"""
 Aşağıdaki iflas veya konkordato ilanını özetle.
 
 Kurallar:
@@ -157,6 +157,8 @@ Sonuç:
 
 {metin}
 """
+        )
+
         return cevap.text
 
     except Exception as e:
