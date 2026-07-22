@@ -130,25 +130,26 @@ def yapay_zeka_ozetle(metin):
     try:
 
         cevap = gemini.models.generate_content(
-            model="gemini-2.5-flash-lite",
-            contents=f"""
-Aşağıdaki konkordato veya iflas ilanını incele.
+        model="gemini-3.5-flash",
+        contents=f"""
+Aşağıdaki iflas veya konkordato ilanını incele.
 
-Kısa ve anlaşılır şekilde özetle.
+Vatandaşın kolay anlayacağı şekilde özet çıkar.
 
-Şu formatta yaz:
+Aşağıdaki başlıkları kullan:
 
 • Karar Türü
 • Mahkeme
-• İlgili Kişi/Firma
-• Kararın Özeti
-• Tarih
+• Firma / Kişi
+• Önemli Karar
+• Tarihler
+• Sonuç
 
-Metin:
+İlan Metni:
 
 {metin}
 """
-        )
+)
 
         return cevap.text
 
@@ -186,8 +187,6 @@ def get_personel():
 
 
 seen = load_seen()
-test_gemini()
-exit()
 
 iflaslar = get_iflas()
 
