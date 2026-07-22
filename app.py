@@ -110,7 +110,21 @@ def get_iflas_detay(ad_id):
     )
 
     return r.json()["result"]
+    
+def test_gemini():
 
+    try:
+
+        models = gemini.models.list()
+
+        for m in models:
+
+            print(m.name)
+
+    except Exception as e:
+
+        print("MODEL LISTE HATASI:", e)
+        
 def yapay_zeka_ozetle(metin):
 
     try:
@@ -172,6 +186,8 @@ def get_personel():
 
 
 seen = load_seen()
+test_gemini()
+exit()
 
 iflaslar = get_iflas()
 
