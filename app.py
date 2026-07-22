@@ -1,3 +1,4 @@
+from google import genai
 import os
 import json
 import requests
@@ -5,6 +6,11 @@ from bs4 import BeautifulSoup
 
 BOT_TOKEN = os.environ["BOT_TOKEN"]
 CHAT_ID = os.environ["CHAT_ID"]
+GEMINI_API_KEY = os.environ["GEMINI_API_KEY"]
+
+gemini = genai.Client(
+    api_key=GEMINI_API_KEY
+)
 
 BASE_URL = "https://www.ilan.gov.tr"
 
@@ -105,6 +111,39 @@ def get_iflas_detay(ad_id):
 
     return r.json()["result"]
 
+def yapay_zeka_ozetle(metin):
+
+    try:
+
+        cevap = gemini.models.generate_content(
+            model="gemini-2.5-flash",
+            contents=f"""
+Aşağıdaki konkordato veya iflas ilanını incele.
+
+Kısa ve anlaşılır şekilde özetle.
+
+Şu formatta yaz:
+
+• Karar Türü
+• Mahkeme
+• İlgili Kişi/Firma
+• Kararın Özeti
+• Tarih
+
+Metin:
+
+{metin}
+"""
+        )
+
+        return cevap.text
+
+    except Exception as e:
+
+        print("Gemini hata:", e)
+
+        return metin[:1000]
+
 
 def get_personel():
 
@@ -176,10 +215,9 @@ for ilan in iflaslar:
                 strip=True
             )
 
-            ozet = temiz[:1200]
-
-            if len(temiz) > 1200:
-                ozet += "..."
+           ozet = yapay_zeka_ozetle(
+    temiz[:15000]
+)
 
         except Exception as e:
 
