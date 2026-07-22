@@ -116,7 +116,7 @@ def yapay_zeka_ozetle(metin):
     try:
 
         cevap = gemini.models.generate_content(
-            model="gemini-2.5-flash",
+            model="gemini-2.5-flash-lite",
             contents=f"""
 Aşağıdaki konkordato veya iflas ilanını incele.
 
