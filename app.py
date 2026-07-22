@@ -207,17 +207,17 @@ for ilan in iflaslar:
                 ""
             )
 
-            temiz = BeautifulSoup(
-                html,
-                "html.parser"
-            ).get_text(
-                " ",
-                strip=True
-            )
+        temiz = BeautifulSoup(
+            html,
+            "html.parser"
+        ).get_text(
+            " ",
+            strip=True
+        )
 
-           ozet = yapay_zeka_ozetle(
-    temiz[:15000]
-)
+        ozet = yapay_zeka_ozetle(
+            temiz[:15000]
+        )
 
         except Exception as e:
 
